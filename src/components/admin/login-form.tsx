@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
 
@@ -23,7 +23,8 @@ export function LoginForm({ next, notice }: { next: string; notice?: string }) {
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "", remember: true },
   });
-  const { register, handleSubmit, formState, watch, setValue } = form;
+  const { register, handleSubmit, formState, control, setValue } = form;
+  const remember = useWatch({ control, name: "remember" });
   const errors = formState.errors;
   const passwordInvalid = !!errors.password || !!serverError;
 
@@ -103,7 +104,7 @@ export function LoginForm({ next, notice }: { next: string; notice?: string }) {
       </Field>
 
       <Checkbox
-        checked={watch("remember")}
+        checked={remember}
         onChange={(v) => setValue("remember", v)}
         label="Bu cihazda beni hatırla"
         name="remember"

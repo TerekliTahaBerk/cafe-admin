@@ -67,7 +67,7 @@ export function ProductSheet({
               <span
                 className={cn(
                   "tnum font-heading text-[26px] font-semibold whitespace-nowrap",
-                  soldOut && "text-neutral-600",
+                  soldOut && "text-neutral-700",
                 )}
               >
                 {formatPrice(product.price)}

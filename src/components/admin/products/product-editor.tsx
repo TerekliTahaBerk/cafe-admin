@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState, useTransition } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, X } from "lucide-react";
 import { toast } from "sonner";
@@ -105,10 +105,10 @@ function EditorForm({
     resolver: zodResolver(productSchema),
     defaultValues: defaults(target, categories),
   });
-  const { register, control, handleSubmit, formState, watch, setError } = form;
+  const { register, control, handleSubmit, formState, setError } = form;
   const errors = formState.errors;
-  const description = watch("description") ?? "";
-  const categoryId = watch("category_id");
+  const description = useWatch({ control, name: "description" }) ?? "";
+  const categoryId = useWatch({ control, name: "category_id" });
   const isNew = target.mode === "new";
 
   // Revoke blob previews when they are replaced or the editor closes.

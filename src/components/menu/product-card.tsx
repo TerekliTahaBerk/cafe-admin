@@ -58,19 +58,14 @@ export function ProductCard({
           <span
             className={cn(
               "tnum font-heading text-[19px] font-semibold whitespace-nowrap md:text-[20px]",
-              soldOut && "text-neutral-600",
+              soldOut && "text-neutral-700",
             )}
           >
             {formatPrice(product.price)}
           </span>
         </div>
         {product.description ? (
-          <p
-            className={cn(
-              "text-[13px] leading-[1.45] text-pretty text-neutral-700 md:leading-normal",
-              soldOut && "opacity-85",
-            )}
-          >
+          <p className="text-[13px] leading-[1.45] text-pretty text-neutral-700 md:leading-normal">
             {product.description}
           </p>
         ) : null}

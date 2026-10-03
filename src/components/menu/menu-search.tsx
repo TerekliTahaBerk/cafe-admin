@@ -91,7 +91,7 @@ export function SearchResults({
                 <span
                   className={cn(
                     "tnum font-heading text-[18px] font-semibold",
-                    soldOut && "text-neutral-600",
+                    soldOut && "text-neutral-700",
                   )}
                 >
                   {formatPrice(product.price)}

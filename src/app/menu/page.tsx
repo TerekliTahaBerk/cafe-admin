@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { MenuView } from "@/components/menu/menu-view";
+import { menuTimeScript } from "@/components/menu/time-script";
 import { getMenu, getSiteSettings } from "@/lib/data";
 import { publicImageUrl } from "@/lib/env";
 
@@ -27,14 +28,17 @@ export default async function MenuPage() {
     .map((s) => ({ id: s.id, name: s.name, products: s.products }));
 
   return (
-    <MenuView
-      cafeName={settings.cafe_name}
-      logoUrl={publicImageUrl(settings.logo_path)}
-      subtitle={settings.location_label}
-      tagline={settings.tagline}
-      wifiPassword={settings.wifi_password}
-      openingHours={settings.opening_hours}
-      sections={sections}
-    />
+    <>
+      <MenuView
+        cafeName={settings.cafe_name}
+        logoUrl={publicImageUrl(settings.logo_path)}
+        subtitle={settings.location_label}
+        tagline={settings.tagline}
+        wifiPassword={settings.wifi_password}
+        openingHours={settings.opening_hours}
+        sections={sections}
+      />
+      <script dangerouslySetInnerHTML={{ __html: menuTimeScript(settings.opening_hours) }} />
+    </>
   );
 }

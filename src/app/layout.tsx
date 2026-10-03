@@ -18,6 +18,9 @@ const lora = Lora({
   weight: ["400", "600"],
   style: ["normal", "italic"],
   display: "swap",
+  // Headings carry the brand; the body face swaps in without being
+  // preloaded so it doesn't compete with CSS on slow mobile connections.
+  preload: false,
 });
 
 export const metadata: Metadata = {

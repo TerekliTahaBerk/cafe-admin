@@ -41,7 +41,12 @@ export function MenuView({
   const [activeId, setActiveId] = useState(sections[0]?.id ?? "");
   const [selected, setSelected] = useState<Product | null>(null);
   const [condensed, setCondensed] = useState(false);
-  const [now, setNow] = useState<{ greet: string; status: ReturnType<typeof todayStatus> } | null>(null);
+  // On the client this starts with the same values menuTimeScript already
+  // painted, so hydration doesn't rewrite the greeting (which would count as
+  // a late LCP paint). The server renders a neutral fallback.
+  const [now, setNow] = useState<{ greet: string; status: ReturnType<typeof todayStatus> } | null>(() =>
+    typeof window === "undefined" ? null : { greet: greeting(), status: todayStatus(openingHours) },
+  );
 
   const heroRef = useRef<HTMLDivElement>(null);
   const chipBarRef = useRef<HTMLDivElement>(null);
@@ -68,8 +73,15 @@ export function MenuView({
   // Time-dependent copy is computed on the client so the cached page stays
   // correct all day (Istanbul time).
   useEffect(() => {
-    const tick = () => setNow({ greet: greeting(), status: todayStatus(openingHours) });
-    tick();
+    const tick = () =>
+      setNow((prev) => {
+        const next = { greet: greeting(), status: todayStatus(openingHours) };
+        const same =
+          prev?.greet === next.greet &&
+          prev?.status.label === next.status.label &&
+          prev?.status.open === next.status.open;
+        return same ? prev : next;
+      });
     const id = window.setInterval(tick, 60_000);
     return () => window.clearInterval(id);
   }, [openingHours]);
@@ -254,7 +266,10 @@ export function MenuView({
           </div>
           <div className="flex flex-col gap-1.5 pt-1.5">
             <h1 className="text-[36px] leading-[1.05] font-normal tracking-[-0.02em]">
-              {greet}, <em>hoş geldin.</em>
+              <span data-greeting="" suppressHydrationWarning>
+                {greet}
+              </span>
+              , <em>hoş geldin.</em>
             </h1>
             {tagline ? (
               <p className="text-[14px] leading-normal text-pretty text-neutral-700">{tagline}</p>
@@ -326,7 +341,10 @@ export function MenuView({
         <aside className="hidden md:block">
           <div className="sticky top-[124px] flex flex-col gap-1.5">
             <h1 className="mb-1.5 text-[40px] leading-[1.05] font-normal">
-              {greet}, <em>hoş geldin.</em>
+              <span data-greeting="" suppressHydrationWarning>
+                {greet}
+              </span>
+              , <em>hoş geldin.</em>
             </h1>
             {tagline ? <p className="mb-2 text-[14px] text-neutral-700">{tagline}</p> : null}
             <StatusLine status={now?.status ?? null} wifiPassword={wifiPassword} stacked className="mb-4" />
@@ -391,7 +409,7 @@ export function MenuView({
                   <h2 id={`baslik-${s.id}`} className="text-[26px] font-normal md:text-[30px]">
                     {s.name}
                   </h2>
-                  <span className="tnum text-[12px] text-neutral-600">{s.products.length} ürün</span>
+                  <span className="tnum text-[12px] text-neutral-700">{s.products.length} ürün</span>
                 </div>
                 <ul className="md:grid md:grid-cols-1 md:gap-x-10 xl:grid-cols-2">
                   {s.products.map((p, pi) => (
@@ -434,20 +452,27 @@ function StatusLine({
         className,
       )}
     >
-      {status ? (
-        <span className="flex items-center gap-2">
-          <span
-            aria-hidden
-            className={cn("size-[7px] rounded-full", status.open ? "bg-accent" : "border border-neutral-500")}
-          />
-          <span>{status.label}</span>
+      {/* Pre-filled before paint by menuTimeScript; React hydrates the same values. */}
+      <span
+        data-today=""
+        data-open={status?.open ? "1" : "0"}
+        hidden={!status}
+        suppressHydrationWarning
+        className="group flex items-center gap-2"
+      >
+        <span
+          aria-hidden
+          className="size-[7px] rounded-full border border-neutral-500 group-data-[open=1]:border-accent group-data-[open=1]:bg-accent"
+        />
+        <span data-today-label="" suppressHydrationWarning>
+          {status?.label ?? ""}
         </span>
-      ) : null}
-      {status && wifiPassword && !stacked ? (
-        <span className="text-neutral-500" aria-hidden>
-          ·
-        </span>
-      ) : null}
+        {wifiPassword && !stacked ? (
+          <span className="text-neutral-500" aria-hidden>
+            ·
+          </span>
+        ) : null}
+      </span>
       {wifiPassword ? (
         <span>
           Wi‑Fi: <span className="font-mono text-[11px]">{wifiPassword}</span>

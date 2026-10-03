@@ -263,7 +263,7 @@ export default async function HomePage() {
                   i === 1 && "lg:col-[8/13] lg:row-[1/2]",
                   i === 2 && "row-span-2 row-start-2 col-start-1 lg:col-[8/13] lg:row-[2/4]",
                   i === 3 && "lg:col-[1/4] lg:row-[3/4]",
-                  i === 4 && "lg:col-[4/8] lg:row-[3/4]",
+                  i === 4 && "hidden lg:col-[4/8] lg:row-[3/4] lg:block",
                 )}
               />
             ))}
