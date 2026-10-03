@@ -1,0 +1,19 @@
+# Minimal Supabase CLI config for local development (`supabase start`).
+# Every option not listed here falls back to the CLI default.
+project_id = "cafe-admin"
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[auth]
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/auth/confirm"]
+# Sign-ups are closed: the admin account is created by hand.
+enable_signup = false
+
+[auth.email]
+# Note: in the CLI this flag toggles the whole e-mail provider, so it must stay
+# on for password logins. Sign-ups are closed by `auth.enable_signup` above.
+enable_signup = true
+enable_confirmations = false
