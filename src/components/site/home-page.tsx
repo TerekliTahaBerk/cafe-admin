@@ -93,7 +93,7 @@ export async function HomePage({ locale = "tr" }: { locale?: Locale } = {}) {
               </div>
               {s.map_embed_url ? <iframe src={s.map_embed_url} title={`${name} ${t("konumu")}`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" className="visit-map" /> : null}
             </div>
-            <div className="hours-card"><h3>{t("Çalışma saatleri")}</h3>{s.opening_hours.length ? <dl>{[...s.opening_hours].sort((a, b) => a.day - b.day).map((h) => <div key={h.day}><dt>{DAYS_BY_LOCALE[locale][h.day]}</dt><dd>{h.open ? `${h.from} – ${h.to}` : t("Kapalı")}</dd></div>)}</dl> : <p>{t("Güncel çalışma saatlerimiz yakında burada.")}</p>}<span className="hours-flourish" aria-hidden>✳</span></div>
+            <div className="hours-card"><h3>{t("Çalışma saatleri")}</h3>{s.opening_hours.length ? <dl>{[...s.opening_hours].sort((a, b) => a.day - b.day).map((h) => <div key={h.day}><dt>{DAYS_BY_LOCALE[locale][h.day]}</dt><dd>{h.open ? `${h.from} – ${h.to}` : t("Kapalı")}</dd></div>)}</dl> : <p>{t("Güncel çalışma saatlerimiz yakında burada.")}</p>}</div>
           </div>
         </section>
       </main>
