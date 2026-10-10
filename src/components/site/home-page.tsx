@@ -5,7 +5,7 @@ import { SiteHeader } from "@/components/site/site-header";
 import { Wordmark } from "@/components/site/wordmark";
 import { Photo } from "@/components/ui/photo";
 import { siteContent as c } from "@/content/site";
-import { displayCafeName, SELF_SERVICE_NOTE } from "@/lib/brand";
+import { displayCafeName } from "@/lib/brand";
 import { DAYS_BY_LOCALE, languageAlternates, localizedPath, translate, type Locale } from "@/lib/i18n";
 import { getSiteSettings } from "@/lib/data";
 import { getSiteUrl, publicImageUrl } from "@/lib/env";
@@ -83,7 +83,6 @@ export async function HomePage({ locale = "tr" }: { locale?: Locale } = {}) {
               <div className="editorial-caption"><div><h3>{t("Tatlı bir eşlikçi")}</h3><p>{t("Kahvenin yanına küçük bir mutluluk.")}</p></div><ArrowUpRight size={26} aria-hidden /></div>
             </Link>
           </div>
-          <div className="self-service-banner"><span className="self-service-star" aria-hidden>✳</span><div><h3>{t("Sen seç, biz hazırlayalım.")}</h3><p>{t(SELF_SERVICE_NOTE)}</p></div><Link href={localizedPath(locale, "/menu")} className="text-link">{t("Menüye göz at")}<ArrowUpRight size={16} aria-hidden /></Link></div>
         </section>
         <section id="ziyaret" className="visit-section">
           <div className="site-container visit-grid">
