@@ -114,7 +114,7 @@ export function SettingsView({ settings, logoUrl }: { settings: SiteSettings; lo
   const h3 = "border-b border-divider pb-2 text-[22px]";
 
   return (
-    <div className="flex flex-col gap-6 px-5 pt-[18px] pb-8 md:px-10 md:py-8">
+    <div className="admin-page admin-settings flex flex-col gap-6 px-5 pt-[18px] pb-8 md:px-10 md:py-8">
       <form id="settings-form" onSubmit={onSubmit} noValidate className="flex flex-col gap-6">
         <PageHeader
           kicker="Kafe"
@@ -136,7 +136,7 @@ export function SettingsView({ settings, logoUrl }: { settings: SiteSettings; lo
         {summary ? <FormAlert>{summary}</FormAlert> : null}
 
         <div className="grid items-start gap-x-12 gap-y-7 lg:grid-cols-2">
-          <div className="flex flex-col gap-3.5">
+          <div className="admin-card flex flex-col gap-3.5">
             <h2 className={h3}>Kafe bilgileri</h2>
             <div className="flex items-center gap-4">
               {logoPreview ? (
@@ -236,7 +236,7 @@ export function SettingsView({ settings, logoUrl }: { settings: SiteSettings; lo
             </Field>
           </div>
 
-          <div className="flex flex-col gap-3.5">
+          <div className="admin-card flex flex-col gap-3.5">
             <h2 className={h3}>Çalışma saatleri</h2>
             <ul className="flex flex-col">
               {fields.map((f, i) => (

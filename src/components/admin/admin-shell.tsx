@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { ArrowUpRight, Coffee, LayoutDashboard, List, LogOut, QrCode, SlidersHorizontal } from "lucide-react";
 
-import { BrandMark } from "@/components/ui/brand-mark";
+import { Wordmark } from "@/components/site/wordmark";
 import { cn } from "@/lib/cn";
 import { initials } from "@/lib/format";
 
@@ -35,7 +35,7 @@ export function AdminShell({
     exact ? pathname === href : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <div className="min-h-dvh md:grid md:grid-cols-[248px_minmax(0,1fr)]">
+    <div className="admin-shell min-h-dvh md:grid md:grid-cols-[248px_minmax(0,1fr)]">
       <a
         href="#panel"
         className="sr-only z-50 rounded-md bg-bg px-4 py-2 focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
@@ -44,14 +44,11 @@ export function AdminShell({
       </a>
 
       {/* ── Desktop sidebar ── */}
-      <aside className="sticky top-0 hidden h-dvh flex-col border-r border-divider px-4 py-6 md:flex">
-        <div className="flex items-center gap-2.5 px-2 pb-[26px]">
-          <BrandMark name={cafeName} logoUrl={logoUrl} size={36} />
-          <div className="flex min-w-0 flex-col">
-            <span className="truncate font-heading text-[18px] leading-[1.1] font-semibold">{cafeName}</span>
-            <span className="text-[11px] text-neutral-700">Yönetim</span>
-          </div>
-        </div>
+      <aside className="admin-sidebar sticky top-0 hidden h-dvh flex-col border-r border-divider px-4 py-6 md:flex">
+        <Link href="/admin" aria-label={`${cafeName} yönetim ana sayfa`} className="admin-brand no-underline">
+          <Wordmark name={cafeName} logoUrl={logoUrl} />
+          <span className="admin-brand-label">YÖNETİM PANELİ</span>
+        </Link>
         <nav aria-label="Yönetim" className="flex flex-col gap-0.5">
           {NAV.map(({ href, label, icon: Icon, exact }) => {
             const active = isActive(href, exact);
@@ -61,7 +58,7 @@ export function AdminShell({
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex h-11 items-center gap-3 rounded-md border px-3 font-heading text-[16px] font-semibold no-underline transition-colors",
+                  "admin-nav-link flex h-11 items-center gap-3 rounded-md border px-3 font-heading text-[16px] font-semibold no-underline transition-colors",
                   active
                     ? "border-accent bg-accent-100 text-accent-800"
                     : "border-transparent text-neutral-800 hover:bg-text/5",
@@ -112,6 +109,10 @@ export function AdminShell({
         </div>
       </aside>
 
+      <header className="admin-mobile-header md:hidden">
+        <Link href="/admin" aria-label={`${cafeName} yönetim ana sayfa`} className="no-underline"><Wordmark name={cafeName} logoUrl={logoUrl} /></Link>
+        <a href="/menu" target="_blank" rel="noopener" className="admin-preview-link">Menüyü gör <ArrowUpRight size={16} aria-hidden /></a>
+      </header>
       <div id="panel" className="min-w-0 pb-[92px] md:pb-0">
         {children}
       </div>
@@ -119,7 +120,7 @@ export function AdminShell({
       {/* ── Mobile tab bar ── */}
       <nav
         aria-label="Yönetim"
-        className="fixed inset-x-0 bottom-0 z-30 grid h-[calc(76px+env(safe-area-inset-bottom))] grid-cols-5 border-t border-divider bg-bg pb-[max(12px,env(safe-area-inset-bottom))] md:hidden"
+        className="admin-bottom-nav fixed inset-x-0 bottom-0 z-30 grid h-[calc(76px+env(safe-area-inset-bottom))] grid-cols-5 border-t border-divider bg-bg pb-[max(12px,env(safe-area-inset-bottom))] md:hidden"
       >
         {NAV.map(({ href, label, icon: Icon, exact }) => {
           const active = isActive(href, exact);

@@ -15,7 +15,7 @@ export function PageHeader({
   className?: string;
 }) {
   return (
-    <div className={cn("flex items-center gap-2 md:items-end md:gap-4", className)}>
+    <div className={cn("admin-page-header flex items-center gap-2 md:items-end md:gap-4", className)}>
       <div className="flex-1">
         <span className="kicker hidden md:inline">{kicker}</span>
         <h1 className="text-[32px] font-normal md:mt-0.5 md:text-[40px]">{title}</h1>
@@ -47,7 +47,7 @@ export function StatsStrip({
   const num = "tnum font-heading text-[28px] leading-none md:text-[44px]";
   const label = "text-[11px] text-neutral-700 md:text-[13px]";
   return (
-    <div className="grid grid-cols-3 rounded-lg border border-divider">
+    <div className="admin-stats grid grid-cols-3">
       <div className={cell}>
         <span className={num}>{total}</span>
         <span className={label}>
@@ -59,7 +59,7 @@ export function StatsStrip({
         <span className={cn(num, "text-accent-700")}>{inStock}</span>
         <span className={label}>
           stokta
-          <span className="hidden md:block">menüde aktif</span>
+          <span className="hidden md:block">stok durumu</span>
         </span>
       </div>
       <div className={cn(cell, "border-l border-divider")}>

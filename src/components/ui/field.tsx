@@ -18,7 +18,7 @@ import { cn } from "@/lib/cn";
  * Font size is 16px on phones so iOS doesn't zoom on focus.
  */
 export const inputBase =
-  "w-full min-w-0 rounded-md border border-divider bg-transparent px-3 text-[16px] md:text-[15px] " +
+  "ui-field w-full min-w-0 rounded-md border border-divider bg-transparent px-3 text-[16px] md:text-[15px] " +
   "text-text placeholder:text-neutral-600 caret-accent transition-[border-color] " +
   "hover:border-text/45 focus-visible:border-accent focus-visible:outline-[3px] focus-visible:outline-accent-100 focus-visible:outline-offset-0 " +
   "aria-invalid:border-[1.5px] aria-invalid:border-danger-line disabled:opacity-45";
@@ -78,7 +78,7 @@ export function Adorned({
     <div
       data-invalid={invalid || undefined}
       className={cn(
-        "flex h-12 items-center gap-2 rounded-md border border-divider px-3 md:h-11",
+        "ui-adorned flex h-12 items-center gap-2 rounded-md border border-divider px-3 md:h-11",
         "hover:border-text/45 focus-within:border-accent focus-within:outline-[3px] focus-within:outline-accent-100",
         "data-invalid:border-[1.5px] data-invalid:border-danger-line",
       )}

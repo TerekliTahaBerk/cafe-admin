@@ -72,7 +72,7 @@ export function ProductEditor({
   onDelete: (product: Product) => void;
 }) {
   return (
-    <Overlay open={!!target} onClose={onClose} variant="drawer" labelledBy="editor-title">
+    <Overlay open={!!target} onClose={onClose} variant="drawer" labelledBy="editor-title" className="admin-editor">
       {target ? (
         <EditorForm
           key={target.mode === "edit" ? target.product.id : "new"}

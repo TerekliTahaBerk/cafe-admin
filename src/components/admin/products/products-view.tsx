@@ -156,7 +156,7 @@ export function ProductsView({
   ];
 
   return (
-    <div className="flex flex-col gap-3.5 px-5 pt-[18px] md:gap-6 md:px-10 md:py-8">
+    <div className="admin-page admin-products flex flex-col gap-3.5 px-5 pt-[18px] md:gap-6 md:px-10 md:py-8">
       <PageHeader
         kicker="Menü yönetimi"
         title="Ürünler"
@@ -192,7 +192,7 @@ export function ProductsView({
       />
 
       {/* ── Filters ── */}
-      <div className="flex flex-col gap-2.5 md:flex-row md:flex-wrap md:items-center md:gap-3">
+      <div className="admin-filters flex flex-col gap-2.5 md:flex-row md:flex-wrap md:items-center md:gap-3">
         <label className="flex h-11 items-center gap-2.5 rounded-md border border-divider px-3.5 text-neutral-700 focus-within:border-accent focus-within:outline-[3px] focus-within:outline-accent-100 md:max-w-[360px] md:min-w-[240px] md:flex-1">
           <Search size={17} strokeWidth={1.75} aria-hidden />
           <span className="sr-only">Ürün ara</span>
@@ -353,7 +353,7 @@ export function ProductsView({
         <>
           {/* Desktop table */}
           {view === "list" ? (
-            <div role="table" aria-label="Ürünler" className="hidden border-t border-divider md:block">
+            <div role="table" aria-label="Ürünler" className="admin-product-table hidden border-t border-divider md:block">
               <div
                 role="row"
                 className="grid grid-cols-[minmax(0,2.6fr)_1.1fr_0.7fr_0.6fr_1.1fr_96px] items-center gap-4 border-b border-divider px-3 py-2.5 text-[11px] tracking-[0.08em] text-neutral-700 uppercase"
@@ -433,7 +433,7 @@ export function ProductsView({
               ))}
             </div>
           ) : (
-            <ul className="hidden grid-cols-2 gap-x-6 gap-y-8 md:grid lg:grid-cols-3 xl:grid-cols-4">
+            <ul className="admin-product-grid hidden grid-cols-2 gap-x-6 gap-y-8 md:grid lg:grid-cols-3 xl:grid-cols-4">
               {filtered.map((p) => (
                 <li key={p.id} className="flex flex-col gap-3">
                   <button
@@ -482,7 +482,7 @@ export function ProductsView({
           )}
 
           {/* Mobile list */}
-          <ul className="md:hidden">
+          <ul className="admin-product-mobile md:hidden">
             {filtered.map((p) => (
               <li key={p.id} className="flex items-center gap-3 border-t border-divider py-2">
                 <button

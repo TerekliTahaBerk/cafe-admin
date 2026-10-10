@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { BrandMark } from "@/components/ui/brand-mark";
+import { Wordmark } from "@/components/site/wordmark";
 import { Photo } from "@/components/ui/photo";
 import { siteContent } from "@/content/site";
 
@@ -16,7 +16,7 @@ export function AuthShell({
 }) {
   const img = siteContent.loginImage;
   return (
-    <div className="flex min-h-dvh flex-col lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+    <div className="admin-auth flex min-h-dvh flex-col lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
       <div className="m-4 lg:m-0 lg:flex lg:p-10">
         <div className="plate relative flex h-[220px] flex-col justify-end overflow-hidden lg:h-auto lg:flex-1 lg:border-8 lg:p-9">
           <Photo
@@ -39,7 +39,7 @@ export function AuthShell({
       </div>
       <main className="flex flex-1 justify-center px-6 pt-2 pb-6 lg:items-center lg:p-10">
         <div className="flex w-full max-w-[380px] flex-col gap-4 lg:gap-[18px]">
-          <BrandMark name={cafeName} logoUrl={logoUrl} size={52} className="hidden lg:grid" />
+          <Wordmark name={cafeName} logoUrl={logoUrl} className="mb-5" />
           {children}
         </div>
       </main>

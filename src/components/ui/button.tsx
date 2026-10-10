@@ -51,7 +51,7 @@ export function buttonStyles({
   size = "md",
   className,
 }: { variant?: ButtonVariant; size?: ButtonSize; className?: string } = {}) {
-  return cn(base, sizes[size], variants[variant], className);
+  return cn("ui-button", `ui-button-${variant}`, base, sizes[size], variants[variant], className);
 }
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {

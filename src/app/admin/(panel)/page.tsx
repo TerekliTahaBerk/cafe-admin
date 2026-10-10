@@ -21,7 +21,7 @@ export default async function DashboardPage() {
   const catName = Object.fromEntries(categories.map((c) => [c.id, c.name]));
 
   return (
-    <div className="flex flex-col gap-6 px-5 pt-[18px] md:px-10 md:py-8">
+    <div className="admin-page admin-overview flex flex-col gap-6 px-5 pt-[18px] md:px-10 md:py-8">
       <PageHeader
         kicker="Genel durum"
         title="Özet"
@@ -44,7 +44,7 @@ export default async function DashboardPage() {
       />
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-12">
-        <section aria-labelledby="tukenenler" className="flex flex-col gap-3">
+        <section aria-labelledby="tukenenler" className="admin-card flex flex-col gap-3">
           <div className="flex items-baseline justify-between border-b border-divider pb-2">
             <h2 id="tukenenler" className="text-[22px]">
               Tükenenler
@@ -62,7 +62,7 @@ export default async function DashboardPage() {
           )}
         </section>
 
-        <section aria-labelledby="kisayollar" className="flex flex-col gap-3">
+        <section aria-labelledby="kisayollar" className="admin-card flex flex-col gap-3">
           <h2 id="kisayollar" className="border-b border-divider pb-2 text-[22px]">
             Kısayollar
           </h2>

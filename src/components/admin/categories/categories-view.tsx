@@ -157,7 +157,7 @@ export function CategoriesView({ initial }: { initial: CategoryWithCount[] }) {
   const others = toDelete ? items.filter((c) => c.id !== toDelete.id) : [];
 
   return (
-    <div className="flex flex-col gap-3.5 px-5 pt-[18px] md:gap-6 md:px-10 md:py-8">
+    <div className="admin-page admin-categories flex flex-col gap-3.5 px-5 pt-[18px] md:gap-6 md:px-10 md:py-8">
       <div>
         <PageHeader kicker="Menü yönetimi" title="Kategoriler" />
         <p className="text-[13px] text-neutral-700 md:hidden">Sıralamak için tutamaçtan sürükle</p>

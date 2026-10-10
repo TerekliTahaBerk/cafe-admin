@@ -84,7 +84,7 @@ export function QrView({ url, cafeName }: { url: string; cafeName: string }) {
   }
 
   return (
-    <div className="flex flex-col gap-3.5 px-5 pt-[18px] md:gap-6 md:px-10 md:py-8">
+    <div className="admin-page admin-qr flex flex-col gap-3.5 px-5 pt-[18px] md:gap-6 md:px-10 md:py-8">
       <PageHeader kicker="Paylaş" title="QR Kod" />
 
       <div className="grid items-start gap-[18px] lg:grid-cols-[440px_minmax(0,1fr)] lg:gap-14">
@@ -114,7 +114,7 @@ export function QrView({ url, cafeName }: { url: string; cafeName: string }) {
         </div>
 
         {/* Controls */}
-        <div className="flex max-w-[520px] flex-col gap-2.5 md:gap-[22px]">
+        <div className="admin-card flex max-w-[520px] flex-col gap-2.5 md:gap-[22px]">
           <div className="hidden flex-col gap-1.5 md:flex">
             <label htmlFor="menu-url" className="text-[12px] text-neutral-800">
               Menü bağlantısı
