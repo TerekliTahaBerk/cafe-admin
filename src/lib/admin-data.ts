@@ -1,4 +1,5 @@
 import "server-only";
+import { displayCafeName } from "@/lib/brand";
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 
@@ -35,5 +36,6 @@ export async function getAdminCategories(supabase: Client): Promise<CategoryWith
 export async function getAdminSettings(supabase: Client): Promise<SiteSettings> {
   const { data, error } = await supabase.from("site_settings").select("*").maybeSingle();
   if (error) throw error;
-  return { ...DEFAULT_SETTINGS, ...(data ?? {}) };
+  const settings = { ...DEFAULT_SETTINGS, ...(data ?? {}) };
+  return { ...settings, cafe_name: displayCafeName(settings.cafe_name) };
 }

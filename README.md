@@ -1,13 +1,13 @@
-# Kafe Adı — web sitesi, QR menü ve yönetim paneli
+# Jön Coffee & Patisserie — web sitesi, QR menü ve yönetim paneli
 
-Mahalle kafesi için tek proje: tanıtım sitesi (`/`), telefondan açılan QR menü (`/menu`) ve kafe sahibinin ürün/stok yönettiği panel (`/admin`). Arayüz Türkçedir; tasarım Claude Design'daki **Classical** tasarım sistemine (Cormorant Garamond + Lora, ince çizgiler, çerçeveli butonlar) birebir sadıktır.
+Mahalle kafesi için tek proje: tanıtım sitesi (`/`), telefondan açılan QR menü (`/menu`) ve kafe sahibinin ürün/stok yönettiği panel (`/admin`). Arayüz Türkçedir. Jön kimliği `#748064` / `#d0c9be`, Cormorant Garamond başlıklar, DM Sans gövde, kemerli hero ve yuvarlatılmış menü kartlarından oluşur. Mekân self servistir; sepet veya online sipariş yoktur. Görsel kaynakları: [docs/brand-assets.md](docs/brand-assets.md).
 
 **Teknoloji:** Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · Supabase (Postgres, Auth, Storage) · zod · react-hook-form · @dnd-kit · qrcode · pdf-lib · sonner · Vercel
 
 | Rota | Ne yapar |
 | --- | --- |
-| `/` | Tanıtım sitesi: hero, hakkımızda, öne çıkanlar, mekân galerisi, saatler/adres/harita |
-| `/menu` | Herkese açık QR menü: yapışkan kategori çubuğu (scroll-spy), arama, ürün detayı (bottom sheet), “Tükendi” durumu |
+| `/` | Tanıtım sitesi: hero, hikâye, kahve/patisserie anlatımı, self servis, saatler/adres/harita |
+| `/menu` | Herkese açık QR menü: yapışkan kategori filtreleri, arama, ürün detayı (bottom sheet), “Tükendi” durumu |
 | `/admin/login` | Yönetici girişi (+ `/admin/forgot-password`) |
 | `/admin` | Özet: toplam / stokta / tükenen, tükenenleri tek dokunuşla stoğa alma |
 | `/admin/products` | Ürün listesi, arama, kategori + durum filtresi, tek dokunuşla stok anahtarı, ekle/düzenle/sil |
@@ -136,7 +136,7 @@ npx tsc --noEmit  # tip kontrolü
 - **Doğrulama.** `src/lib/validation.ts` içindeki zod şemaları hem react-hook-form'da (istemci) hem Server Action'larda (sunucu) çalışır.
 - **Görsel yükleme.** İstemci dosya türünü (JPG/PNG/WebP) ve boyutu (≤ 5 MB) kontrol eder, görseli kare kırpıp en fazla 1200 px WebP'ye çevirir (Vercel'in ~4.5 MB istek sınırının altında kalır). Sunucu türü, boyutu ve dosyanın gerçek imzasını (magic bytes) yeniden kontrol eder. Görsel değişince veya ürün silinince eski dosya storage'dan silinir.
 - **Stok anahtarı.** İyimser güncelleme: anahtar hemen döner, hata olursa geri alınır ve toast gösterilir; başarılıysa toast'ta “Geri al” vardır.
-- **Tasarım token'ları.** `src/app/globals.css` içindeki `@theme` bloğu, tasarımdaki `classical.css` değişkenlerinin birebir karşılığıdır (`bg-bg`, `text-accent-700`, `border-divider`, `rounded-lg` = 7px …).
+- **Tasarım token'ları.** `src/app/globals.css` içindeki `@theme` bloğu Jön renklerini tüm site ve panele uygular. Public site/menü stilleri ortak bir tasarım sistemi kullanır.
 
 ## Test edilenler
 
@@ -166,7 +166,7 @@ Yerel Supabase yığını (`supabase start`) üzerinde, Playwright ile tarayıc�
 - **Kategori silme:** içinde ürün varsa silme engelleniyor ve ürünleri başka bir kategoriye taşıyıp silme seçeneği sunuluyor (tasarımdaki “Taşı ve sil”). Boş kategoriler menüde gösterilmiyor.
 - **Görseller kare kırpılıyor** (merkezden) ve WebP'ye çevriliyor. Tasarımdaki serbest kırpma aracı yerine kesikli çizgi “menüde görünecek alan” ipucu kullanıldı.
 - **Logo** aynı `product-images` bucket'ında `site/` klasörüne yükleniyor. Biçim PNG/WebP/JPG; SVG kabul edilmiyor (güvenlik ve bucket kısıtı).
-- **Tanıtım sitesi fotoğrafları** (hero, galeri, giriş ekranı) henüz yok; tasarımdaki çizgili yer tutucular kullanılıyor. Fotoğraf eklemek için dosyaları `public/images/` altına koyup `src/content/site.ts` içindeki `src` alanlarını doldurman yeterli. Sitedeki sabit metinler de bu dosyada.
+- **Tanıtım görselleri** temsili ImageGen görselleridir; üretim briefleri `docs/brand-assets.md` içinde. Gerçek mekân görselleriyle değiştirmek için `public/images/` ve `src/content/site.ts` kullanılabilir.
 - **Harita:** Ayarlar'a Google Haritalar “Harita yerleştir” bağlantısı (ya da OpenStreetMap) girilirse gerçek harita gösterilir; boşsa tasarımdaki stilize harita alanı ve “Yol tarifi al” bağlantısı görünür.
 - **Masa kartı PDF'i** tarayıcıda, sayfanın kendi fontlarıyla 300 dpi çiziliyor ve beyaz zemine basılıyor (mürekkep tasarrufu için tasarımdaki gri zemin yerine).
 - **Selamlama** (“Günaydın / İyi günler / İyi akşamlar”) ve “Bugün açığız” satırı İstanbul saatine göre ziyaretçinin tarayıcısında hesaplanıyor; önbellekteki sayfa gün boyu doğru kalıyor.

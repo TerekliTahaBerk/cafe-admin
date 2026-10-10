@@ -1,14 +1,15 @@
 import "server-only";
 
 import { cache } from "react";
+import { BRAND_NAME, displayCafeName, SELF_SERVICE_NOTE } from "@/lib/brand";
 
 import { createPublicClient } from "@/lib/supabase/server";
 import type { Category, Product, SiteSettings } from "@/lib/types";
 
 export const DEFAULT_SETTINGS: SiteSettings = {
   id: true,
-  cafe_name: "Kafe Adı",
-  tagline: "Siparişini kasada ver, masana geç.",
+  cafe_name: BRAND_NAME,
+  tagline: SELF_SERVICE_NOTE,
   about_text: null,
   location_label: null,
   address: null,
@@ -31,7 +32,8 @@ export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
     .select("*")
     .maybeSingle();
   if (error) throw new Error(`Ayarlar yüklenemedi: ${error.message}`);
-  return { ...DEFAULT_SETTINGS, ...(data ?? {}) };
+  const settings = { ...DEFAULT_SETTINGS, ...(data ?? {}) };
+  return { ...settings, cafe_name: displayCafeName(settings.cafe_name) };
 });
 
 export type MenuSection = Category & { products: Product[] };

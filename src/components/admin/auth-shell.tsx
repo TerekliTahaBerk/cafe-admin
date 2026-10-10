@@ -32,7 +32,7 @@ export function AuthShell({
               {img.label}
             </span>
           ) : null}
-          <p className="relative hidden max-w-[420px] font-heading text-[34px] leading-[1.15] italic lg:block">
+          <p className="relative hidden max-w-[420px] rounded-xl bg-surface/95 p-5 font-heading text-[34px] leading-[1.15] italic lg:block">
             {img.quote}
           </p>
         </div>

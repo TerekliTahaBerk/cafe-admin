@@ -3,12 +3,12 @@
 import { Info, X } from "lucide-react";
 
 import { Overlay } from "@/components/ui/overlay";
-import { Photo } from "@/components/ui/photo";
+import { ProductVisual } from "./product-visual";
+import { SELF_SERVICE_NOTE } from "@/lib/brand";
 import { ProductTags, SoldOutStamp } from "@/components/ui/tag";
 import { allergenLabel } from "@/lib/constants";
 import { cn } from "@/lib/cn";
-import { publicImageUrl } from "@/lib/env";
-import { formatPrice, trLower } from "@/lib/format";
+import { formatPrice } from "@/lib/format";
 import type { Product } from "@/lib/types";
 import { SOLD_OUT_NOTE } from "./product-card";
 
@@ -30,16 +30,7 @@ export function ProductSheet({
             <span className="h-1 w-10 rounded-[2px] bg-neutral-400" />
           </div>
           <div className="relative mx-4 mt-2 md:mt-4">
-            <Photo
-              src={publicImageUrl(product.image_path)}
-              alt={product.name}
-              sizes="(min-width: 768px) 520px, 100vw"
-              stripes="lg"
-              muted={soldOut}
-              label={`ürün fotoğrafı · ${trLower(product.name)}`}
-              labelClassName="bottom-3 left-3 text-[11px]"
-              className="plate h-[250px] md:h-[300px]"
-            />
+            <ProductVisual product={product} className="h-[250px] rounded-[22px] md:h-[300px]" />
             {soldOut ? <SoldOutStamp className="px-3 py-1 text-[12px]" /> : null}
             <button
               type="button"
@@ -107,7 +98,7 @@ export function ProductSheet({
 
           <div className="mt-auto flex items-center gap-2.5 border-t border-divider px-5 pt-3.5 pb-[max(24px,env(safe-area-inset-bottom))] text-[13px] text-neutral-800 md:mt-6">
             <Info size={18} strokeWidth={1.75} className="flex-none text-accent-700" aria-hidden />
-            <span>Siparişini kasada ver, masana getiririz.</span>
+            <span>{SELF_SERVICE_NOTE}</span>
           </div>
         </>
       ) : null}

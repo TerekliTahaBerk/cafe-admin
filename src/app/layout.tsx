@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Lora } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 
 import { getSiteUrl } from "@/lib/env";
 import "./globals.css";
@@ -12,11 +12,10 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
-const lora = Lora({
-  variable: "--font-lora",
+const bodyFont = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "600"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
   display: "swap",
   // Headings carry the brand; the body face swaps in without being
   // preloaded so it doesn't compete with CSS on slow mobile connections.
@@ -26,28 +25,28 @@ const lora = Lora({
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: {
-    default: "Kafe Adı · Mahallenin oturma odası",
-    template: "%s · Kafe Adı",
+    default: "Jön Coffee & Patisserie · Güzel bir kahve molası",
+    template: "%s · Jön Coffee & Patisserie",
   },
   description:
-    "Moda'da bir mahalle kafesi: taze kavrulmuş kahve, ev yapımı tatlılar ve gün boyu çalışabileceğin bir masa.",
+    "Kahveni seç, tatlını bul, kendine bir mola ver. Jön Coffee & Patisserie.",
   openGraph: {
     type: "website",
     locale: "tr_TR",
-    siteName: "Kafe Adı",
+    siteName: "Jön Coffee & Patisserie",
   },
   twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f3f2f2",
+  themeColor: "#d0c9be",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="tr" className={`${cormorant.variable} ${lora.variable}`}>
+    <html lang="tr" className={`${cormorant.variable} ${bodyFont.variable}`}>
       <body className="min-h-dvh bg-bg font-body text-text antialiased">{children}</body>
     </html>
   );
