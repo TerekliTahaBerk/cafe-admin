@@ -58,7 +58,6 @@ export async function HomePage({ locale = "tr" }: { locale?: Locale } = {}) {
           </div>
           <div className="hero-media">
             <Photo src={c.heroImage.src} alt={t(c.heroImage.alt)} sizes="(min-width: 900px) 46vw, 90vw" priority className="hero-photo" />
-            <div className="hero-seal" aria-hidden><span>{t("Bir kahve")}<br /><em>{t("molası.")}</em></span><span className="seal-star">✳</span></div>
             <span className="image-credit">{t("Jön atmosferi · temsili görsel")}</span>
           </div>
         </section>
