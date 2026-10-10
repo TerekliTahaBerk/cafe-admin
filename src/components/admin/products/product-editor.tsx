@@ -17,6 +17,7 @@ import { publicImageUrl } from "@/lib/env";
 import { accusative } from "@/lib/format";
 import type { Category, Product } from "@/lib/types";
 import { productSchema, type ProductFormValues } from "@/lib/validation";
+import { LOCALES, type Locale } from "@/lib/i18n";
 import { ImageField, type ImageState } from "./image-field";
 
 export type EditorTarget = { mode: "new" } | { mode: "edit"; product: Product };
@@ -26,6 +27,10 @@ function defaults(target: EditorTarget, categories: Category[]): ProductFormValu
     const p = target.product;
     return {
       name: p.name,
+      name_en: p.name_en ?? "",
+      name_de: p.name_de ?? "",
+      description_en: p.description_en ?? "",
+      description_de: p.description_de ?? "",
       description: p.description ?? "",
       price: String(p.price).replace(".", ","),
       category_id: p.category_id,
@@ -38,6 +43,10 @@ function defaults(target: EditorTarget, categories: Category[]): ProductFormValu
   }
   return {
     name: "",
+    name_en: "",
+    name_de: "",
+    description_en: "",
+    description_de: "",
     description: "",
     price: "",
     category_id: categories[0]?.id ?? "",
@@ -93,6 +102,7 @@ function EditorForm({
 }) {
   const formId = useId();
   const [pending, startTransition] = useTransition();
+  const [language, setLanguage] = useState<Locale>("tr");
   const [summary, setSummary] = useState<string>();
   const [imageError, setImageError] = useState<string>();
   const [image, setImage] = useState<ImageState>(() =>
@@ -107,7 +117,9 @@ function EditorForm({
   });
   const { register, control, handleSubmit, formState, setError } = form;
   const errors = formState.errors;
-  const description = useWatch({ control, name: "description" }) ?? "";
+  const translatedNames = { tr: "name", en: "name_en", de: "name_de" } as const;
+  const translatedDescriptions = { tr: "description", en: "description_en", de: "description_de" } as const;
+  const description = useWatch({ control, name: translatedDescriptions[language] }) ?? "";
   const categoryId = useWatch({ control, name: "category_id" });
   const isNew = target.mode === "new";
 
@@ -123,6 +135,8 @@ function EditorForm({
   const kicker = categories.find((c) => c.id === categoryId)?.name ?? "Ürün";
 
   const onInvalid = (errs: typeof errors) => {
+    const firstInvalidLanguage = LOCALES.find((l) => errs[translatedNames[l]] || errs[translatedDescriptions[l]]);
+    if (firstInvalidLanguage) setLanguage(firstInvalidLanguage);
     const n = Object.keys(errs).length + (imageError ? 1 : 0);
     setSummary(`Kaydetmeden önce ${n} alanı düzeltmen gerekiyor.`);
   };
@@ -192,43 +206,23 @@ function EditorForm({
 
         <ImageField value={image} onChange={setImage} error={imageError} onError={setImageError} />
 
-        <Field label="Ürün adı" htmlFor="p-name" error={errors.name?.message}>
-          <Input
-            id="p-name"
-            placeholder="Örn. Havuçlu kek"
-            autoComplete="off"
-            aria-invalid={!!errors.name || undefined}
-            aria-describedby={errors.name ? "p-name-error" : undefined}
-            {...register("name")}
-          />
-        </Field>
-
-        <Field
-          label="Kısa açıklama"
-          htmlFor="p-desc"
-          error={errors.description?.message}
-          aside={
-            <span
-              className={cn(
-                "tnum",
-                description.length > DESCRIPTION_MAX ? "text-danger" : "text-neutral-700",
-              )}
-              aria-live="polite"
-            >
-              {description.length}/{DESCRIPTION_MAX}
-            </span>
-          }
-        >
-          <Textarea
-            id="p-desc"
-            rows={2}
-            maxLength={DESCRIPTION_MAX + 20}
-            placeholder="Menüde adın altında görünür."
-            aria-invalid={!!errors.description || undefined}
-            className="min-h-[70px] text-[15px] md:text-[14px]"
-            {...register("description")}
-          />
-        </Field>
+        <div role="tablist" aria-label="Ürün dili" className="flex gap-2 border-b border-divider pb-2">
+          {LOCALES.map((l, i) => <button key={l} id={`product-tab-${l}`} type="button" role="tab" aria-selected={language === l} aria-controls={`product-panel-${l}`} tabIndex={language === l ? 0 : -1} onClick={() => setLanguage(l)} onKeyDown={(e) => {
+            const next = e.key === 'ArrowRight' ? LOCALES[(i + 1) % 3] : e.key === 'ArrowLeft' ? LOCALES[(i + 2) % 3] : e.key === 'Home' ? 'tr' : e.key === 'End' ? 'de' : null;
+            if (next) { e.preventDefault(); setLanguage(next); document.getElementById(`product-tab-${next}`)?.focus(); }
+          }} className={cn("min-h-11 rounded-full px-4 text-[13px]", language === l ? "bg-accent-800 text-surface" : "hover:bg-text/5")}>
+            {{ tr: 'Türkçe', en: 'English', de: 'Deutsch' }[l]}{(errors[translatedNames[l]] || errors[translatedDescriptions[l]]) ? ' •' : ''}
+          </button>)}
+        </div>
+        <p className="text-[12px] text-neutral-700">Ürün adı ve açıklama her dil için ayrıdır. Boş çevirilerde Türkçe metin gösterilir. Fiyat, fotoğraf ve aşağıdaki seçimler tüm dillerde ortaktır.</p>
+        {LOCALES.map((l) => <div key={l} id={`product-panel-${l}`} role="tabpanel" aria-labelledby={`product-tab-${l}`} hidden={language !== l} className={cn("flex flex-col gap-4", language !== l && "hidden")}>
+          <Field label={`Ürün adı · ${{ tr: 'Türkçe', en: 'English', de: 'Deutsch' }[l]}`} htmlFor={`p-name-${l}`} error={errors[translatedNames[l]]?.message}>
+            <Input id={`p-name-${l}`} lang={l} autoComplete="off" aria-invalid={!!errors[translatedNames[l]] || undefined} {...register(translatedNames[l])} />
+          </Field>
+          <Field label={`Kısa açıklama · ${{ tr: 'Türkçe', en: 'English', de: 'Deutsch' }[l]}`} htmlFor={`p-desc-${l}`} error={errors[translatedDescriptions[l]]?.message} aside={language === l ? <span className={cn("tnum", description.length > DESCRIPTION_MAX ? "text-danger" : "text-neutral-700")}>{description.length}/{DESCRIPTION_MAX}</span> : null}>
+            <Textarea id={`p-desc-${l}`} lang={l} rows={3} maxLength={DESCRIPTION_MAX + 20} aria-invalid={!!errors[translatedDescriptions[l]] || undefined} {...register(translatedDescriptions[l])} />
+          </Field>
+        </div>)}
 
         <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-3.5">
           <Field label="Fiyat" htmlFor="p-price" error={errors.price?.message}>

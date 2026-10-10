@@ -72,6 +72,10 @@ export async function saveProduct(formData: FormData): Promise<ActionResult<Prod
 
     const row = {
       name: values.name,
+      name_en: values.name_en || null,
+      name_de: values.name_de || null,
+      description_en: values.description_en || null,
+      description_de: values.description_de || null,
       description: values.description || null,
       price: parsePrice(values.price),
       category_id: values.category_id,

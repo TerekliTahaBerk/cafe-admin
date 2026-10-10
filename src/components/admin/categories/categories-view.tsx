@@ -108,18 +108,18 @@ export function CategoriesView({ initial }: { initial: CategoryWithCount[] }) {
     return true;
   }
 
-  async function rename(id: string, name: string) {
+  async function rename(id: string, name: string, nameEn: string, nameDe: string) {
     const prev = items.find((c) => c.id === id);
-    if (!prev || prev.name === name.trim()) {
+    if (!prev || (prev.name === name.trim() && (prev.name_en ?? "") === nameEn.trim() && (prev.name_de ?? "") === nameDe.trim())) {
       setEditingId(null);
       return true;
     }
-    const res = await renameCategory(id, name);
+    const res = await renameCategory(id, name, nameEn, nameDe);
     if (!res.ok) {
       toast.error(res.error);
       return false;
     }
-    setItems((list) => list.map((c) => (c.id === id ? { ...c, name: name.trim() } : c)));
+    setItems((list) => list.map((c) => (c.id === id ? { ...c, name: name.trim(), name_en: nameEn.trim() || null, name_de: nameDe.trim() || null } : c)));
     setEditingId(null);
     toast.success("Kategori adı güncellendi.");
     return true;
@@ -200,7 +200,7 @@ export function CategoriesView({ initial }: { initial: CategoryWithCount[] }) {
                       editing={editingId === c.id}
                       onEdit={() => setEditingId(c.id)}
                       onCancelEdit={() => setEditingId(null)}
-                      onRename={(name) => rename(c.id, name)}
+                      onRename={(name, en, de) => rename(c.id, name, en, de)}
                       onDelete={() => openDelete(c)}
                     />
                   ))}
@@ -290,7 +290,7 @@ function SortableRow({
   editing: boolean;
   onEdit: () => void;
   onCancelEdit: () => void;
-  onRename: (name: string) => Promise<boolean>;
+  onRename: (name: string, en: string, de: string) => Promise<boolean>;
   onDelete: () => void;
 }) {
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } =
@@ -304,11 +304,11 @@ function SortableRow({
       className={cn(
         "relative flex h-[60px] items-center gap-2.5 border-b border-divider md:h-16 md:gap-3.5 md:px-2",
         isDragging && "bg-accent-100/60 before:absolute before:inset-x-0 before:-top-px before:h-[3px] before:bg-accent",
-        editing && "bg-accent-100",
+        editing && "bg-accent-100 h-auto md:h-auto py-4",
       )}
     >
       {editing ? (
-        <RenameRow no={no} initial={category.name} onSave={onRename} onCancel={onCancelEdit} />
+        <RenameRow no={no} initial={category} onSave={onRename} onCancel={onCancelEdit} />
       ) : (
         <>
           <button
@@ -373,18 +373,20 @@ function RenameRow({
   onCancel,
 }: {
   no: string;
-  initial: string;
-  onSave: (name: string) => Promise<boolean>;
+  initial: CategoryWithCount;
+  onSave: (name: string, en: string, de: string) => Promise<boolean>;
   onCancel: () => void;
 }) {
-  const [value, setValue] = useState(initial);
+  const [value, setValue] = useState(initial.name);
+  const [en, setEn] = useState(initial.name_en ?? "");
+  const [de, setDe] = useState(initial.name_de ?? "");
   const [pending, start] = useTransition();
   const id = useId();
-  const submit = () => start(async () => void (await onSave(value)));
+  const submit = () => start(async () => void (await onSave(value, en, de)));
 
   return (
     <form
-      className="flex flex-1 items-center gap-2 md:gap-3.5"
+      className="flex flex-1 flex-wrap items-center gap-2 md:gap-3.5"
       onSubmit={(e) => {
         e.preventDefault();
         submit();
@@ -404,6 +406,8 @@ function RenameRow({
         onKeyDown={(e) => e.key === "Escape" && onCancel()}
         className="h-11 min-w-0 flex-1 rounded-md border border-accent bg-bg px-3 font-heading text-[18px] font-semibold outline-none focus-visible:outline-[3px] focus-visible:outline-accent-100 md:text-[19px]"
       />
+      <label className="flex w-full items-center gap-3 text-[12px]">English<Input value={en} maxLength={40} lang="en" onChange={(e) => setEn(e.target.value)} /></label>
+      <label className="flex w-full items-center gap-3 text-[12px]">Deutsch<Input value={de} maxLength={40} lang="de" onChange={(e) => setDe(e.target.value)} /></label>
       <Button type="submit" variant="primary" size="sm" loading={pending}>
         Kaydet
       </Button>

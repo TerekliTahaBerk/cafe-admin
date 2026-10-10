@@ -9,6 +9,8 @@ export type OpeningHoursDay = {
 export type Category = {
   id: string;
   name: string;
+  name_en: string | null;
+  name_de: string | null;
   sort_order: number;
   created_at: string;
 };
@@ -17,7 +19,11 @@ export type Product = {
   id: string;
   category_id: string;
   name: string;
+  name_en: string | null;
+  name_de: string | null;
   description: string | null;
+  description_en: string | null;
+  description_de: string | null;
   price: number;
   image_path: string | null;
   tags: string[];

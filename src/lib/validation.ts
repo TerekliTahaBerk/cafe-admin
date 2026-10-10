@@ -16,6 +16,10 @@ export const productSchema = z.object({
     .string()
     .trim()
     .max(DESCRIPTION_MAX, `En fazla ${DESCRIPTION_MAX} karakter.`),
+  name_en: z.string().trim().max(80, "En fazla 80 karakter."),
+  name_de: z.string().trim().max(80, "En fazla 80 karakter."),
+  description_en: z.string().trim().max(DESCRIPTION_MAX, `En fazla ${DESCRIPTION_MAX} karakter.`),
+  description_de: z.string().trim().max(DESCRIPTION_MAX, `En fazla ${DESCRIPTION_MAX} karakter.`),
   price: z
     .string()
     .trim()

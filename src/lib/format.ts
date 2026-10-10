@@ -18,15 +18,10 @@ export function trLower(value: string) {
 /** Turkish-aware, accent-insensitive normalisation for search. */
 export function normalizeSearch(value: string) {
   return trLower(value)
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
     .replace(/ı/g, "i")
-    .replace(/ğ/g, "g")
-    .replace(/ü/g, "u")
-    .replace(/ş/g, "s")
-    .replace(/ö/g, "o")
-    .replace(/ç/g, "c")
-    .replace(/â/g, "a")
-    .replace(/î/g, "i")
-    .replace(/û/g, "u");
+    .replace(/ß/g, "ss");
 }
 
 export function initials(nameOrEmail: string) {

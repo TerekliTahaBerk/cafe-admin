@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import { AlignJustify, LayoutGrid, Pencil, Plus, Search, Trash, X } from "lucide-react";
 import { toast } from "sonner";
@@ -330,9 +331,9 @@ export function ProductsView({
                 <Plus size={17} strokeWidth={2} aria-hidden /> İlk ürünü ekle
               </Button>
             ) : (
-              <a href="/admin/categories" className={buttonStyles({ variant: "primary", size: "lg" })}>
+              <Link href="/admin/categories" className={buttonStyles({ variant: "primary", size: "lg" })}>
                 Kategorilere git
-              </a>
+              </Link>
             )
           }
         />

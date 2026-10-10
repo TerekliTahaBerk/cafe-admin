@@ -40,16 +40,18 @@ export async function createCategory(name: string): Promise<ActionResult<Categor
   }
 }
 
-export async function renameCategory(id: string, name: string): Promise<ActionResult> {
+export async function renameCategory(id: string, name: string, nameEn = "", nameDe = ""): Promise<ActionResult> {
   try {
     const { supabase } = await requireAdmin();
     const parsedId = z.uuid().safeParse(id);
     const parsed = categoryNameSchema.safeParse(name);
     if (!parsedId.success) return fail("Geçersiz istek.");
     if (!parsed.success) return fail(parsed.error.issues[0].message);
+    const translations = z.object({ name_en: z.string().trim().max(40), name_de: z.string().trim().max(40) }).safeParse({ name_en: nameEn, name_de: nameDe });
+    if (!translations.success) return fail("Kategori çevirileri en fazla 40 karakter olabilir.");
     const { error } = await supabase
       .from("categories")
-      .update({ name: parsed.data })
+      .update({ name: parsed.data, name_en: translations.data.name_en || null, name_de: translations.data.name_de || null })
       .eq("id", parsedId.data);
     if (error) throw error;
     revalidatePublic();

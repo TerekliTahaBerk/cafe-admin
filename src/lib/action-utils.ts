@@ -31,6 +31,10 @@ export function toFailure(err: unknown) {
 export function revalidatePublic() {
   revalidatePath("/menu");
   revalidatePath("/");
+  for (const locale of ["en", "de"]) {
+    revalidatePath(`/${locale}`);
+    revalidatePath(`/${locale}/menu`);
+  }
 }
 
 export function revalidateAdmin() {

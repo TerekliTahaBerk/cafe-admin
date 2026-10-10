@@ -1,3 +1,4 @@
+import { translate, type Locale } from "@/lib/i18n";
 import { tagByKey, type TagTone } from "@/lib/constants";
 import { cn } from "@/lib/cn";
 
@@ -15,14 +16,15 @@ export function Tag({ tone, children }: { tone: TagTone; children: React.ReactNo
   );
 }
 
-export function ProductTags({ tags, className }: { tags: string[]; className?: string }) {
+export function ProductTags({ tags, className, locale = "tr" }: { tags: string[]; className?: string; locale?: Locale }) {
+  const t = (text: string) => translate(locale, text);
   const known = tags.map(tagByKey).filter((t) => !!t);
   if (!known.length) return null;
   return (
-    <ul className={cn("flex flex-wrap gap-[5px]", className)} aria-label="Etiketler">
+    <ul className={cn("flex flex-wrap gap-[5px]", className)} aria-label={t("Etiketler")}>
       {known.map((t) => (
         <li key={t.key}>
-          <Tag tone={t.tone}>{t.label}</Tag>
+          <Tag tone={t.tone}>{translate(locale, t.label)}</Tag>
         </li>
       ))}
     </ul>
@@ -30,7 +32,8 @@ export function ProductTags({ tags, className }: { tags: string[]; className?: s
 }
 
 /** Slightly tilted rubber stamp laid over a sold-out product's photo. */
-export function SoldOutStamp({ className }: { className?: string }) {
+export function SoldOutStamp({ className, locale = "tr" }: { className?: string; locale?: Locale }) {
+  const t = (text: string) => translate(locale, text);
   return (
     <span
       className={cn(
@@ -38,8 +41,6 @@ export function SoldOutStamp({ className }: { className?: string }) {
         "rounded-[3px] border border-neutral-800 bg-bg px-2 py-[3px] text-[10px] tracking-[0.12em] text-neutral-900 uppercase",
         className,
       )}
-    >
-      Tükendi
-    </span>
+    >{t("Tükendi")}</span>
   );
 }
