@@ -69,7 +69,8 @@ export function MenuView({ cafeName, logoUrl, wifiPassword, sections, locale = "
       <div className="site-container menu-intro">
         <p className="eyebrow">{t("Jön menüsü")}</p>
         <h1>{t("Bugün canın")}<br className="mobile-only" /> <em>{t("ne ister?")}</em></h1>
-        <p>{t(SELF_SERVICE_NOTE)}</p>
+        <p className="menu-service-note">{t(SELF_SERVICE_NOTE)}</p>
+        {wifiPassword ? <div className="menu-wifi">{t("Wi-Fi şifresi")}: <bdi>{wifiPassword}</bdi></div> : null}
       </div>
       <div className="menu-tools">
         <div className="site-container">
@@ -93,7 +94,7 @@ export function MenuView({ cafeName, logoUrl, wifiPassword, sections, locale = "
             <ul className="product-grid">{s.products.map((p, pi) => <li key={p.id} className={cn(p.is_featured && pi === 0 && "featured-menu-item")}><ProductCard locale={locale} product={p} onSelect={openProduct} priority={si === 0 && pi < 2} /></li>)}</ul>
           </section>
         ))}
-        <footer className="menu-footer"><span className="menu-footer-star" aria-hidden>✳</span><p>{t("Bir yudum, küçük bir mola.")}</p><span>{t(SELF_SERVICE_NOTE)}</span>{wifiPassword ? <span className="menu-wifi">Wi-Fi: {wifiPassword}</span> : null}<Link href={localizedPath(locale)}>{cafeName}</Link></footer>
+        <footer className="menu-footer"><p>{t("Bir yudum, küçük bir mola.")}</p><span>{t(SELF_SERVICE_NOTE)}</span><Link href={localizedPath(locale)}>{cafeName}</Link></footer>
       </main>
       <ProductSheet locale={locale} product={selected} categoryName={selected ? categoryOf.get(selected.id) : undefined} onClose={closeProduct} />
     </div>

@@ -398,5 +398,9 @@
   "Tekrar dene": {
     "en": "Try again",
     "de": "Erneut versuchen"
+  },
+  "Wi-Fi şifresi": {
+    "en": "Wi-Fi password",
+    "de": "WLAN-Passwort"
   }
 }
