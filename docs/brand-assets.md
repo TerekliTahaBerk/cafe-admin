@@ -15,3 +15,9 @@ Görseller built-in ImageGen ile üretildi ve WebP olarak optimize edildi. Bunla
 - Ana sayfa: marka anlatımı, kahve/patisserie editoryal görselleri, self servis açıklaması, ziyaret ve saatler. Fiyatlı ürün listesi QR menüdedir.
 - Menü: Supabase ürünleri, iki sütun mobil / dört sütun masaüstü, kategori ve metin araması, stok filtresi, içerik/alerjen detayları. Sepet, ödeme, adisyon veya online sipariş yoktur.
 - Gerçek ürün listesi verilmediği için mevcut veriler değiştirilmedi; yönetim panelinden düzenlenebilir.
+
+## Sağlanan logo
+
+`public/images/jon-logo.png`: Kullanıcının sağladığı JÖN Coffee & Patisserie logosunun şeffaf PNG sürümü. Built-in ImageGen ile arka plan çıkarıldı. Brief: “Remove only the white/off-white background, including negative spaces inside letters and the mountain/sun/wave artwork; preserve the original olive green artwork and COFFEE & PATISSERIE lettering; true transparent PNG with a small transparent margin.”
+
+Ana sayfa, menü, footer ve yönetim panelindeki ortak Wordmark bileşeni bu dosyayı kullanır. Panelden yeni logo yüklenirse yüklenen logo önceliklidir.

@@ -1,3 +1,4 @@
+export const BRAND_LOGO = "/images/jon-logo.png";
 export const BRAND_NAME = "Jön Coffee & Patisserie";
 export const SELF_SERVICE_NOTE = "Siparişini kasada ver, hazır olduğunda tezgâhtan al.";
 

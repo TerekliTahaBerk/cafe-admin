@@ -559,3 +559,14 @@
   .admin-editor h2 { font-size: 23px; }
   .admin-qr .admin-card { max-width: none; }
 }
+
+/* Complete supplied logo replaces the temporary typeset wordmark. */
+.wordmark-logo { display: block; width: 144px; height: auto; object-fit: contain; }
+.admin-brand .wordmark-logo { width: 172px; }
+.admin-auth .wordmark-logo { width: 180px; }
+.menu-brand-header .wordmark-logo { width: 156px; }
+@media (max-width: 767px) {
+  .wordmark-logo { width: 108px; }
+  .admin-mobile-header .wordmark-logo { width: 96px; }
+  .menu-brand-header .wordmark-logo { width: 132px; }
+}

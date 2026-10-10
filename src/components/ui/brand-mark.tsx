@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { BRAND_LOGO } from "@/lib/brand";
 import { cn } from "@/lib/cn";
 
 /** Circular monogram (or uploaded logo) used across the site, menu and panel. */
@@ -14,6 +15,7 @@ export function BrandMark({
   size?: number;
   className?: string;
 }) {
+  const src = logoUrl || (name.startsWith("Jön") ? BRAND_LOGO : null);
   const letter = (name.trim()[0] ?? "K").toLocaleUpperCase("tr-TR");
   return (
     <span
@@ -24,8 +26,8 @@ export function BrandMark({
         className,
       )}
     >
-      {logoUrl ? (
-        <Image src={logoUrl} alt="" fill sizes={`${size * 2}px`} className="object-contain p-[12%]" />
+      {src ? (
+        <Image src={src} alt="" fill sizes={`${size * 2}px`} className="object-contain p-[12%]" />
       ) : (
         letter
       )}
